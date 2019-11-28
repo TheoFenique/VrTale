@@ -1,8 +1,12 @@
 import * as THREE from 'three';
 import { MTLLoader, OBJLoader } from 'three-obj-mtl-loader';
 import { WEBVR } from 'three/examples/jsm/vr/WebVR.js';
+import "./assets/treedata.json";
 import './css/master.css';
 
+var treedata = require("./assets/treedata")
+
+console.log(treedata)
 
 const mtlLoader = new MTLLoader()
 const objLoader = new OBJLoader()
@@ -76,6 +80,26 @@ renderer.setSize(sizes.width, sizes.height)
 renderer.shadowMap.enabled = true
 document.body.appendChild(renderer.domElement)
 
+
+//Add Steve Carell <3
+let carellGeometry = new THREE.Geometry()
+treedata.map((v, i, a) => {
+    var carell = new THREE.Vector3();
+    carell.x = v[0] - 250
+    carell.z = v[1] - 100
+
+    carell.material = new THREE.MeshStandardMaterial({
+        map: textureLoader.load('carell.png'),
+    })
+
+    carellGeometry.vertices.push(carell)
+})
+
+var carellField = new THREE.Points(carellGeometry);
+
+scene.add(carellField)
+
+
 //Listeners for keydowns 
 window.addEventListener('keydown', (_e) => {
     //Press Z to increase velocity
@@ -84,6 +108,42 @@ window.addEventListener('keydown', (_e) => {
         window.addEventListener('keyup', (_e) => {
             if (_e.key == 'z') {
                 controlsListeners.z = 0
+            }
+
+        })
+    }
+})
+window.addEventListener('keydown', (_e) => {
+    //Press Z to increase velocity
+    if (_e.key == 's') {
+        controlsListeners.s = 1
+        window.addEventListener('keyup', (_e) => {
+            if (_e.key == 's') {
+                controlsListeners.s = 0
+            }
+
+        })
+    }
+})
+window.addEventListener('keydown', (_e) => {
+    //Press Z to increase velocity
+    if (_e.key == 'd') {
+        controlsListeners.d = 1
+        window.addEventListener('keyup', (_e) => {
+            if (_e.key == 'd') {
+                controlsListeners.d = 0
+            }
+
+        })
+    }
+})
+window.addEventListener('keydown', (_e) => {
+    //Press Z to increase velocity
+    if (_e.key == 'q') {
+        controlsListeners.q = 1
+        window.addEventListener('keyup', (_e) => {
+            if (_e.key == 'q') {
+                controlsListeners.q = 0
             }
 
         })
@@ -114,27 +174,26 @@ window.addEventListener('keydown', (_e) => {
     }
 })
 
+
+camera.position.y = 2
 // Loop
 const loop = () => {
     window.requestAnimationFrame(loop)
     //Update velocity
-    if (controlsListeners.z === 1 && controlsListeners.shift === 0)//Increase speed to 3.2
-    {
+    if (controlsListeners.z === 1 && controlsListeners.shift === 0) {
         if (velocity < 6) {
             velocity += 0.016
         }
     }
 
-    if (controlsListeners.shift === 1 && controlsListeners.z === 1)//Increase speed to 108
-    {
+    if (controlsListeners.shift === 1 && controlsListeners.z === 1) {
         velocity += 0.40
         if (velocity > 40) {
             velocity = 40
         }
     }
 
-    if (controlsListeners.s === 1)//Decrease to 
-    {
+    if (controlsListeners.s === 1) {
         velocity -= 0.50
         if (velocity < -4) {
             velocity = -4
@@ -150,23 +209,30 @@ const loop = () => {
     skyBox.mesh.position.y = camera.position.y
     skyBox.mesh.position.z = camera.position.z
 
-    // Update camera
-    //Position 
-    camera.setFocalLength(15 - (velocity / 10))
-    camera.position.x += cursor.x * 1.2
-    camera.position.y += - cursor.y * 1.2
-    camera.position.z -= velocity * 0.08
-
-    //Position container
-    if (camera.position.x > 38) { camera.position.x = 38 }
-    if (camera.position.x < -38) { camera.position.x = -38 }
-    if (camera.position.y > 38) { camera.position.y = 38 }
-    if (camera.position.y < -38) { camera.position.y = -38 }
-    if (camera.position.z > 0) { camera.position.z = 0 }
 
     //Rotation
-    camera.rotation.z = - cursor.x * 0.15
-    camera.rotation.x = - cursor.y * 0.15
+    camera.rotation.x -= cursor.y * 0.1
+    camera.rotation.order = 'YXZ'
+    camera.rotation.y -= cursor.x * 0.1
+
+    if (controlsListeners.z == 1) {
+        camera.position.x -= (Math.sin(camera.rotation.y) / 360) * 30
+        camera.position.z -= (Math.cos(camera.rotation.y) / 360) * 30
+        // camera.position.y += (Math.tan(camera.rotation.x) / 360) *30
+    }
+    if (controlsListeners.q == 1) {
+        camera.position.x += (Math.sin(-camera.rotation.y - Math.PI / 2) / 360) * 30
+        camera.position.z += (-Math.cos(-camera.rotation.y - Math.PI / 2) / 360) * 30
+    }
+    if (controlsListeners.s == 1) {
+        camera.position.x += (Math.sin(camera.rotation.y) / 360) * 30
+        camera.position.z += (Math.cos(camera.rotation.y) / 360) * 30
+        // camera.position.y -= (Math.tan(camera.rotation.x) / 360) *30
+    }
+    if (controlsListeners.d == 1) {
+        camera.position.x += (Math.sin(-camera.rotation.y + Math.PI / 2) / 360) * 30
+        camera.position.z += (-Math.cos(-camera.rotation.y + Math.PI / 2) / 360) * 30
+    }
 
     // Renderer
     renderer.render(scene, camera)
