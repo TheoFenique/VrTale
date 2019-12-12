@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { MTLLoader, OBJLoader } from 'three-obj-mtl-loader';
 import { WEBVR } from 'three/examples/jsm/vr/WebVR.js';
-import "./assets/treedata.json";
+import "./static/treedata.json";
 import './css/master.css';
 
 var treedata = require("./assets/treedata")
