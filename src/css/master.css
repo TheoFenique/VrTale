@@ -43,6 +43,12 @@ canvas
     transition: 0.75s ease all;
 }
 
+.firstScreen.inactive
+{ 
+    /* display: block;  */
+    transform: translateY(100%);
+    transition: 0.75s ease all;
+}
 
 
 

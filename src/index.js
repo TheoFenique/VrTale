@@ -83,7 +83,7 @@ document.body.appendChild(renderer.domElement)
 
 //Add Steve Carell <3
 let carellGeometry = new THREE.Geometry()
-treedata.map((v, i, a) => {
+treedata.cloud.map((v, i, a) => {
     var carell = new THREE.Vector3();
     carell.x = v[0] - 250
     carell.z = v[1] - 100
@@ -102,7 +102,6 @@ scene.add(carellField)
 
 //Listeners for keydowns 
 window.addEventListener('keydown', (_e) => {
-    //Press Z to increase velocity
     if (_e.key == 'z') {
         controlsListeners.z = 1
         window.addEventListener('keyup', (_e) => {
@@ -114,7 +113,6 @@ window.addEventListener('keydown', (_e) => {
     }
 })
 window.addEventListener('keydown', (_e) => {
-    //Press Z to increase velocity
     if (_e.key == 's') {
         controlsListeners.s = 1
         window.addEventListener('keyup', (_e) => {
@@ -126,7 +124,6 @@ window.addEventListener('keydown', (_e) => {
     }
 })
 window.addEventListener('keydown', (_e) => {
-    //Press Z to increase velocity
     if (_e.key == 'd') {
         controlsListeners.d = 1
         window.addEventListener('keyup', (_e) => {
@@ -138,7 +135,6 @@ window.addEventListener('keydown', (_e) => {
     }
 })
 window.addEventListener('keydown', (_e) => {
-    //Press Z to increase velocity
     if (_e.key == 'q') {
         controlsListeners.q = 1
         window.addEventListener('keyup', (_e) => {
@@ -151,7 +147,6 @@ window.addEventListener('keydown', (_e) => {
 })
 
 window.addEventListener('keydown', (_e) => {
-    //Press Shift to highly increase velocity
     if (_e.key == 'Shift') {
         controlsListeners.shift = 1
         window.addEventListener('keyup', (_e) => {
@@ -163,7 +158,6 @@ window.addEventListener('keydown', (_e) => {
 })
 
 window.addEventListener('keydown', (_e) => {
-    //Press S to decrease velocity
     if (_e.key == 's') {
         controlsListeners.s = 1
         window.addEventListener('keyup', (_e) => {
@@ -174,9 +168,11 @@ window.addEventListener('keydown', (_e) => {
     }
 })
 
+camera.position.y = 20
 
-camera.position.y = 2
+
 // Loop
+let witness = 0;
 const loop = () => {
     window.requestAnimationFrame(loop)
     //Update velocity
@@ -236,6 +232,11 @@ const loop = () => {
 
     // Renderer
     renderer.render(scene, camera)
+
+    witness += 1;
+
+    camera.position.x = treedata.line[witness][0] - 250
+    camera.position.z = treedata.line[witness][1] - 100
 
 }
 loop()
