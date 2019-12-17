@@ -29,5 +29,10 @@ let treedata = fetch("http://tichyus.pythonanywhere.com/api", {
     .catch(err => {
         throw new Error(err);
     });
-
-loop()
+    
+// document.querySelector('canvas').style.display = "none"
+let launch_button = document.querySelector('#launch');
+launch_button.addEventListener('click', ()=>{
+    document.querySelector('canvas').style.visibility = "visible"
+    loop()
+})

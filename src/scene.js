@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { MTLLoader, OBJLoader } from 'three-obj-mtl-loader';
-import { WEBVR } from 'three/examples/jsm/vr/WebVR.js';
+// import { WEBVR } from 'three/examples/jsm/vr/WebVR.js';
 
 export let PlaceObjects = (data) => {
     //Add Steve Carell <3
@@ -28,7 +28,7 @@ const objLoader = new OBJLoader()
 const textureLoader = new THREE.TextureLoader()
 const scene = new THREE.Scene()
 
-document.body.appendChild(WEBVR.createButton(renderer));
+// document.body.appendChild(WEBVR.createButton(renderer));
 // renderer.vr.enabled = true;
 
 //Variables
