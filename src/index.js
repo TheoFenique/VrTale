@@ -1,12 +1,55 @@
 import * as THREE from 'three';
 import { MTLLoader, OBJLoader } from 'three-obj-mtl-loader';
 import { WEBVR } from 'three/examples/jsm/vr/WebVR.js';
-import "./static/treedata.json";
 import './css/master.css';
 
-var treedata = require("./assets/treedata")
+// let productsApi = {
+//     getProducts: async () => {
+//         let response = await fetch('http://test-api.playosmo.com/ecommerce/products.json', {
+//                 'Accept': 'application/json',
+//             }
+//         })
+//         let products = await response.json();
+//         return products
+//     },
+// }
 
-console.log(treedata)
+let treedata = fetch("http://tichyus.pythonanywhere.com/api", {
+        method: "GET",
+        headers: {
+            Accept: "application/json"
+        }
+    })
+        .then(res => {
+            res.json().then(data => {
+            console.log(data)
+            PlaceObjects(data)
+            return data
+        });
+    })
+    .catch(err => {
+        throw new Error(err);
+    });
+
+let PlaceObjects = (data) => {
+    //Add Steve Carell <3
+    let carellGeometry = new THREE.Geometry()
+    data.cloud.map((v, i, a) => {
+        var carell = new THREE.Vector3();
+        carell.x = v[0] - 250
+        carell.z = v[1] - 100
+
+        carell.material = new THREE.MeshStandardMaterial({
+            map: textureLoader.load('carell.png'),
+        })
+
+        carellGeometry.vertices.push(carell)
+    })
+
+    var carellField = new THREE.Points(carellGeometry);
+
+    scene.add(carellField)
+}
 
 const mtlLoader = new MTLLoader()
 const objLoader = new OBJLoader()
@@ -81,23 +124,7 @@ renderer.shadowMap.enabled = true
 document.body.appendChild(renderer.domElement)
 
 
-//Add Steve Carell <3
-let carellGeometry = new THREE.Geometry()
-treedata.cloud.map((v, i, a) => {
-    var carell = new THREE.Vector3();
-    carell.x = v[0] - 250
-    carell.z = v[1] - 100
 
-    carell.material = new THREE.MeshStandardMaterial({
-        map: textureLoader.load('carell.png'),
-    })
-
-    carellGeometry.vertices.push(carell)
-})
-
-var carellField = new THREE.Points(carellGeometry);
-
-scene.add(carellField)
 
 
 //Listeners for keydowns 
@@ -234,9 +261,6 @@ const loop = () => {
     renderer.render(scene, camera)
 
     witness += 1;
-
-    camera.position.x = treedata.line[witness][0] - 250
-    camera.position.z = treedata.line[witness][1] - 100
 
 }
 loop()
