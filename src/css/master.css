@@ -54,7 +54,7 @@ h1
     font-size: 5em;
 }
 
-button
+button, a
 {
     width: fit-content;
     margin: auto;

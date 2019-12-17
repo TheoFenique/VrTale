@@ -162,6 +162,8 @@ export const loop = () => {
     // Renderer
     renderer.render(scene, camera)
 
-    witness += 1;
+    // camera.position.x = treedata.line[witness][0] - 250
+    // camera.position.z = treedata.line[witness][1] - 100
 
+    witness += 1;
 }
