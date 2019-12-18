@@ -28,8 +28,6 @@ const objLoader = new OBJLoader()
 const textureLoader = new THREE.TextureLoader()
 const scene = new THREE.Scene()
 
-document.body.appendChild( VRButton.createButton( renderer ) );
-renderer.vr.enabled = true;
 
 //Variables
 let velocity = 0
@@ -99,6 +97,9 @@ document.body.appendChild(renderer.domElement)
 
 camera.position.y = 20
 
+document.body.appendChild(VRButton.createButton(renderer));
+
+renderer.vr.enabled = true;
 
 // Loop
 let witness = 0;
