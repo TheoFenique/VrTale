@@ -166,8 +166,8 @@ export const launch = function(treedata){
         renderer.render(scene, camera)
 
         if (Object.keys(treedata.line).length >= witness) {
-            camera.position.x = (treedata.line[witness][0] - 250)/3
-            camera.position.z = (treedata.line[witness][1] - 100)/3
+            camera.position.x = (treedata.line[witness][0] - 250)
+            camera.position.z = (treedata.line[witness][1] - 100)
         }
     
         witness += 1;

@@ -22,14 +22,14 @@ let treedata = fetch("http://tichyus.pythonanywhere.com/api", {
     })
         .then(res => {
             res.json().then(data => {
-            console.log(data)
-            PlaceObjects(data)
-            console.log("attention ca va commencer")
-            let launch_button = document.querySelector('#launch');
-            launch_button.addEventListener('click', ()=>{
-                document.querySelector('canvas').classList.add("visible")
-                console.log('cest partiiiiiii')
-                launch(data)
+                console.log(data)
+                PlaceObjects(data)
+                console.log("attention ca va commencer")
+                let launch_button = document.querySelector('#launch');
+                launch_button.addEventListener('click', ()=>{
+                    document.querySelector('canvas').classList.add("visible")
+                    console.log('cest partiiiiiii')
+                    launch(data)
             })
             return data
         });
@@ -37,5 +37,3 @@ let treedata = fetch("http://tichyus.pythonanywhere.com/api", {
     .catch(err => {
         throw new Error(err);
     });
-    
-// document.querySelector('canvas').style.display = "none"
