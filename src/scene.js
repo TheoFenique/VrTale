@@ -98,11 +98,11 @@ document.body.appendChild(renderer.domElement)
 camera.position.y = 20
 
 document.body.appendChild(VRButton.createButton(renderer));
-
 renderer.vr.enabled = true;
 
 // Loop
 let witness = 0;
+let startwitness = false;
 export const launch = function (treedata) {
     console.log(treedata)
     const loop = () => {
@@ -166,9 +166,11 @@ export const launch = function (treedata) {
         // Renderer
         renderer.render(scene, camera)
 
-        if (Object.keys(treedata.line).length >= witness) {
-            camera.position.x = (treedata.line[witness][0] - 250)
-            camera.position.z = (treedata.line[witness][1] - 100)
+        if (startwitness) {
+            if (Object.keys(treedata.line).length >= witness) {
+                camera.position.x = (treedata.line[witness][0] - 250)
+                camera.position.z = (treedata.line[witness][1] - 100)
+            }
         }
 
         witness += 1;
