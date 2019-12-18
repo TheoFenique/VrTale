@@ -1,6 +1,6 @@
 import './css/master.css';
 import './controls' // will have the vr controls
-import {PlaceObjects, loop} from './scene'
+import {PlaceObjects, launch} from './scene'
 
 // let productsApi = {
 //     getProducts: async () => {
@@ -13,6 +13,7 @@ import {PlaceObjects, loop} from './scene'
 //     },
 // }
 
+
 let treedata = fetch("http://tichyus.pythonanywhere.com/api", {
         method: "GET",
         headers: {
@@ -23,6 +24,13 @@ let treedata = fetch("http://tichyus.pythonanywhere.com/api", {
             res.json().then(data => {
             console.log(data)
             PlaceObjects(data)
+            console.log("attention ca va commencer")
+            let launch_button = document.querySelector('#launch');
+            launch_button.addEventListener('click', ()=>{
+                document.querySelector('canvas').classList.add("visible")
+                console.log('cest partiiiiiii')
+                launch(data)
+            })
             return data
         });
     })
@@ -31,8 +39,3 @@ let treedata = fetch("http://tichyus.pythonanywhere.com/api", {
     });
     
 // document.querySelector('canvas').style.display = "none"
-let launch_button = document.querySelector('#launch');
-launch_button.addEventListener('click', ()=>{
-    document.querySelector('canvas').style.visibility = "visible"
-    loop()
-})
