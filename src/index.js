@@ -2,18 +2,6 @@ import './controls'; // will have the vr controls
 import './css/master.css';
 import { launch, PlaceObjects } from './scene';
 
-// let productsApi = {
-//     getProducts: async () => {
-//         let response = await fetch('http://test-api.playosmo.com/ecommerce/products.json', {
-//                 'Accept': 'application/json',
-//             }
-//         })
-//         let products = await response.json();
-//         return products
-//     },
-// }
-
-
 let treedata = fetch("https://tichyus.pythonanywhere.com/api", {
     method: "GET",
     headers: {
