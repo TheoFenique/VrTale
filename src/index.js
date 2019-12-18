@@ -25,5 +25,3 @@ let treedata = fetch("https://tichyus.pythonanywhere.com/api", {
     .catch(err => {
         throw new Error(err);
     });
-
-// document.querySelector('canvas').style.display = "none"

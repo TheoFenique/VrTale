@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { MTLLoader, OBJLoader } from 'three-obj-mtl-loader';
-// import { WEBVR } from 'three/examples/jsm/vr/WebVR.js';
+import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 
 export let PlaceObjects = (data) => {
     //Add Steve Carell <3
@@ -28,8 +28,8 @@ const objLoader = new OBJLoader()
 const textureLoader = new THREE.TextureLoader()
 const scene = new THREE.Scene()
 
-// document.body.appendChild(WEBVR.createButton(renderer));
-// renderer.vr.enabled = true;
+document.body.appendChild( VRButton.createButton( renderer ) );
+renderer.vr.enabled = true;
 
 //Variables
 let velocity = 0
@@ -105,7 +105,7 @@ let witness = 0;
 export const launch = function (treedata) {
     console.log(treedata)
     const loop = () => {
-        window.requestAnimationFrame(loop)
+        renderer.setAnimationLoop(loop)
 
         //Update velocity
         if (controlsListeners.z === 1 && controlsListeners.shift === 0) {
