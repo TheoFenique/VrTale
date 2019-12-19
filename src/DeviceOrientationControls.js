@@ -5,12 +5,7 @@
  * W3C Device Orientation control (http://w3c.github.io/deviceorientation/spec-source-orientation.html)
  */
 
-import {
-    Euler,
-    Math as _Math,
-    Quaternion,
-    Vector3
-} from "three";
+import { Euler, Math as _Math, Quaternion, Vector3 } from "three";
 
 var DeviceOrientationControls = function (object) {
 
@@ -109,7 +104,7 @@ var DeviceOrientationControls = function (object) {
 
     this.update = function () {
 
-        if (scope.enabled === false) return;
+        if (scope.enabled === false) return "p";
 
         var device = scope.deviceOrientation;
 

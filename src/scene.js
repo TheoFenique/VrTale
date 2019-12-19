@@ -196,7 +196,7 @@ export const launch = function (treedata) {
 
         // Renderer
         stereoEffect.render(scene, camera)
-        controls.update();
+        console.log(controls.update());
 
         if (witness < treedata.line.length) {
             camCount++
