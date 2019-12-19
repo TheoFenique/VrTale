@@ -1,25 +1,20 @@
 import * as THREE from 'three';
 import { MTLLoader, OBJLoader } from 'three-obj-mtl-loader';
 // import { WEBVR } from 'three/examples/jsm/vr/WebVR.js';
+import * as PROPS from './assets/propsBuilder.js'
 
 export let PlaceObjects = (data) => {
-    //Add Steve Carell <3
-    let carellGeometry = new THREE.Geometry()
-    data.cloud.map((v, i, a) => {
-        var carell = new THREE.Vector3();
-        carell.x = v[0] - 250
-        carell.z = v[1] - 100
 
-        carell.material = new THREE.MeshStandardMaterial({
-            map: textureLoader.load('carell.png'),
-        })
+    // data.cloud.map((v, i, a) => {
 
-        carellGeometry.vertices.push(carell)
-    })
-
-    var carellField = new THREE.Points(carellGeometry);
-
-    scene.add(carellField)
+    //     let lineIndex = Math.floor(i/3)
+    //     if(i%2==0){
+    //         PROPS.createProp(scene, PROPS.three2, 0x4CA132, v[0]-250, 13, v[1]-100, 0, Math.atan((data.line[lineIndex+1][0]-data.line[lineIndex][0])/(data.line[lineIndex+1][1]-data.line[lineIndex][1])), 0)
+    //     }
+    //     else{
+    //         PROPS.createProp(scene, PROPS.three1, 0x4CA132, v[0]-250, 13, v[1]-100, 0, Math.atan((data.line[lineIndex+1][0]-data.line[lineIndex][0])/(data.line[lineIndex+1][1]-data.line[lineIndex][1])), 0)
+    //     }
+    // })
 }
 
 
@@ -51,6 +46,19 @@ skyBox.material = new THREE.MeshStandardMaterial({
 // skyBox.position = (0, 0, 4000)
 skyBox.mesh = new THREE.Mesh(skyBox.geometry, skyBox.material)
 scene.add(skyBox.mesh)
+
+//Set the floor
+const floor = {}
+floor.geometry = new THREE.PlaneGeometry(2000, 2000)
+floor.material = new THREE.MeshStandardMaterial({
+    color: 0x4A2B10, metalness: 0.3, roughness: 0.8
+})
+floor.mesh = new THREE.Mesh(floor.geometry, floor.material)
+floor.mesh.rotation.x = - Math.PI * 0.5
+floor.mesh.castShadow = false
+floor.mesh.receiveShadow = true
+floor.mesh.position.y = 10
+scene.add(floor.mesh)
 
 // Sizes
 const sizes = {}
@@ -86,8 +94,26 @@ window.addEventListener('mousemove', (_event) => {
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 1, 9000)
 scene.add(camera)
 
-var light = new THREE.AmbientLight(0xffffff, 1.7);
-scene.add(light);
+//Lights
+var light = new THREE.AmbientLight(0xffffff, 1.5);
+scene.add(light)
+
+const sunLight = new THREE.DirectionalLight(0xffffff, 1)
+sunLight.position.x = 0
+sunLight.position.y = 50
+sunLight.position.z = 0
+sunLight.castShadow = true
+sunLight.shadow.camera.right = 2000
+sunLight.shadow.camera.left = -2000
+sunLight.shadow.camera.top = 2000
+sunLight.shadow.camera.bottom = -2000
+sunLight.shadow.camera.near = 50
+sunLight.shadow.camera.far = 60
+scene.add(sunLight)
+
+var helper = new THREE.CameraHelper(sunLight.shadow.camera);
+scene.add(helper)
+
 
 //Renderer
 const renderer = new THREE.WebGLRenderer()
@@ -101,10 +127,17 @@ camera.position.y = 20
 
 
 // Loop
-let witness = 0;
+let j = 0
+let camCount = 0
+let lineIndex = 0
+let witness = 0
 export const launch = function(treedata){
     console.log(treedata)
     const loop = () => {
+        if(j==0 && witness ==0){
+            camera.position.x = (treedata.line[witness][0] - 250)
+            camera.position.z = (treedata.line[witness][1] - 100)
+        }
         window.requestAnimationFrame(loop)
     
         //Update velocity
@@ -161,16 +194,34 @@ export const launch = function(treedata){
             camera.position.x += (Math.sin(-camera.rotation.y + Math.PI / 2) / 360) * 30
             camera.position.z += (-Math.cos(-camera.rotation.y + Math.PI / 2) / 360) * 30
         }
-    
+
         // Renderer
         renderer.render(scene, camera)
 
-        if (Object.keys(treedata.line).length >= witness) {
-            camera.position.x = (treedata.line[witness][0] - 250)/3
-            camera.position.z = (treedata.line[witness][1] - 100)/3
+        if(witness<treedata.line.length)
+        {
+            camCount++
+            camera.position.x += (((treedata.line[witness+1][0] - 250) - (treedata.line[witness][0] - 250))/10)
+            camera.position.z += (((treedata.line[witness+1][1] - 100) - (treedata.line[witness][1] - 100))/10)
+            if(camCount==10){
+                witness += 1
+                camCount = 0
+            }
+
+            while((treedata.cloud[j][0]-250)<(camera.position.x+150)){
+                console.log('pop')
+                lineIndex = Math.floor(j/3)
+                if(j%2==0){
+                    PROPS.createProp(scene, PROPS.three1, 0x4CA132, treedata.cloud[j][0]-250, 13, treedata.cloud[j][1]-100, 0, Math.atan((treedata.line[lineIndex+1][0]-treedata.line[lineIndex][0])/(treedata.line[lineIndex+1][1]-treedata.line[lineIndex][1])), 0)
+                }
+                else{
+                    PROPS.createProp(scene, PROPS.three2, 0x4CA132, treedata.cloud[j][0]-250, 13, treedata.cloud[j][1]-100, 0, Math.atan((treedata.line[lineIndex+1][0]-treedata.line[lineIndex][0])/(treedata.line[lineIndex+1][1]-treedata.line[lineIndex][1])), 0)
+                }
+            j++
+            }
+            console.log(camera.position.x)
+            console.log(camera.position.z)
         }
-    
-        witness += 1;
     }
     setTimeout(() => {
         console.log('ouiiiii')

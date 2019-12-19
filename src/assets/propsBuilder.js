@@ -1,3 +1,5 @@
+import * as THREE from 'three';
+
 const three1 = new THREE.Geometry()
 three1.vertices.push(
     ///////////////////////////////////FRONT///////////////////////////////////
@@ -529,19 +531,25 @@ board.computeVertexNormals();
 const paths = ['/assets/stamps/logsStamp.png','/assets/stamps/fireStamp.png','/assets/stamps/sheetStamp.png','/assets/stamps/walk1Stamp.png','/assets/stamps/sleepStamp.png','/assets/stamps/walk2Stamp.png','/assets/stamps/houseStamp.png','/assets/stamps/sheetStamp.png']
 
 function createProp(scene, geometry, color, posX=0, posY=0, posZ=0, rotX=0, rotY=0, rotZ=0) {
+    const propObject = new THREE.Object3D()
+
     const material = new THREE.MeshStandardMaterial({color, roughness : 2});
 
     const mesh = new THREE.Mesh(geometry, material);
 
-    mesh.castShadow = true
-    mesh.receiveShadow = true
-    mesh.position.x = posX;
-    mesh.position.y = posY;
-    mesh.position.z = posZ;
-    mesh.rotation.x = rotX;
-    mesh.rotation.y = rotY;
-    mesh.rotation.z = rotZ;
-    scene.add(mesh);
+    propObject.add(mesh)
+
+    propObject.castShadow = true
+    propObject.receiveShadow = true
+    propObject.position.x = posX;
+    propObject.position.y = posY;
+    propObject.position.z = posZ;
+    propObject.rotation.x = rotX;
+    propObject.rotation.y = rotY;
+    propObject.rotation.z = rotZ;
+
+    propObject.scale.set(0.2,0.2,0.2)
+    scene.add(propObject);
 }
 
 const TextureLoader = new THREE.TextureLoader()
@@ -574,6 +582,8 @@ function createBoardProp(stampPath, posX=0, posY=0, posZ=0, rotX=0, rotY=0, rotZ
     stamp.position.x=13
     stamp.position.y=6
     boardObject.add(stamp)
+
+    boardObject.scale.set(0.1,0.1,0.1)
 
     myScene.add(boardObject)
 

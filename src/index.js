@@ -14,7 +14,7 @@ import {PlaceObjects, launch} from './scene'
 // }
 
 
-let treedata = fetch("http://tichyus.pythonanywhere.com/api", {
+let treedata = fetch("https://tichyus.pythonanywhere.com/api", {
         method: "GET",
         headers: {
             Accept: "application/json"
