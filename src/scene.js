@@ -129,7 +129,6 @@ export const launch = function(treedata){
         }
         renderer.vr.enabled = false;
         renderer.setAnimationLoop(loop)
-        renderer.vr.enabled = true;
 
         //Update velocity
         if (controlsListeners.z === 1 && controlsListeners.shift === 0) {
@@ -217,6 +216,7 @@ export const launch = function(treedata){
                 }
             }
         }
+        renderer.vr.enabled = true;
     }
     setTimeout(() => {
         console.log('ouiiiii')
