@@ -48,14 +48,15 @@ scene.add(skyBox.mesh)
 
 //Set the floor
 const floor = {}
-floor.geometry = new THREE.PlaneGeometry(2000, 2000)
+floor.geometry = new THREE.PlaneBufferGeometry(2000, 2000,1,1)
 floor.material = new THREE.MeshStandardMaterial({
-    color: 0x4A2B10, metalness: 0.3, roughness: 0.8
+    color: 0x4A2B10, metalness: 0.3, roughness: 0.3
 })
 floor.mesh = new THREE.Mesh(floor.geometry, floor.material)
 floor.mesh.rotation.x = - Math.PI * 0.5
 floor.mesh.castShadow = false
 floor.mesh.receiveShadow = true
+
 floor.mesh.position.y = 12
 scene.add(floor.mesh)
 
@@ -117,8 +118,6 @@ renderer.setSize(sizes.width, sizes.height)
 renderer.shadowMap.enabled = true
 document.body.appendChild(renderer.domElement)
 
-
-
 camera.position.y = 20
 
 document.body.appendChild(VRButton.createButton(renderer));
@@ -128,6 +127,14 @@ renderer.vr.enabled = true;
 // Boards
 let paths = ["logsStamp.png","fireStamp.png","sheetStamp.png","walk1Stamp.png","sleepStamp.png","walk2Stamp.png","houseStamp.png","sheetStamp.png"]
 let boards = []
+
+// Audio
+let audio
+let audioPaths = ["narration_1.wav","narration_2.wav","narration_3.wav","narration_4.wav","narration_5.wav","narration_6.wav","narration_7.wav","narration_8.wav"]
+
+let ambientMusic = new Audio("ambientMusic.mp3")
+ambientMusic.volume = 0.3
+ambientMusic.play()
 
 // Loop
 let n = 0
@@ -226,6 +233,8 @@ export const launch = function(treedata){
                     if(j%(Math.ceil(treedata.cloud.length/8))==0 && j!=0){
                         boards.push(PROPS.createBoardProp(scene, paths[m], treedata.cloud[j][0]-250, 8, treedata.cloud[j][1]-100, 0, -90 - Math.atan((treedata.line[lineIndex+5][0]-treedata.line[lineIndex][0])/(treedata.line[lineIndex+5][1]-treedata.line[lineIndex][1])), 0))
                         console.log(boards[m])
+                        audio = new Audio(audioPaths[m]);
+                        audio.play();
                         m++
                         n=0
                     }

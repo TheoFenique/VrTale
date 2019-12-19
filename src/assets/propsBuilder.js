@@ -533,6 +533,8 @@ function createProp(scene, geometry, color, posX=0, posY=0, posZ=0, rotX=0, rotY
 
     const material = new THREE.MeshStandardMaterial({color, roughness : 2});
 
+    material.side = THREE.DoubleSide
+    geometry.comp
     const mesh = new THREE.Mesh(geometry, material);
 
     propObject.add(mesh)
