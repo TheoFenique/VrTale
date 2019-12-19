@@ -203,23 +203,26 @@ export const launch = function(treedata){
         if(witness<treedata.line.length)
         {
             camCount++
-            camera.position.x += (((treedata.line[witness+1][0] - 250) - (treedata.line[witness][0] - 250))/10)
-            camera.position.z += (((treedata.line[witness+1][1] - 100) - (treedata.line[witness][1] - 100))/10)
+            camera.position.x += (((treedata.line[witness+10][0] - 250) - (treedata.line[witness][0] - 250))/100)
+            camera.position.z += (((treedata.line[witness+10][1] - 100) - (treedata.line[witness][1] - 100))/100)
             if(camCount==10){
                 witness += 1
                 camCount = 0
             }
 
-            while((treedata.cloud[j][0]-250)<(camera.position.x+150)){
-                console.log('pop')
-                lineIndex = Math.floor(j/3)
-                if(j%2==0){
-                    PROPS.createProp(scene, PROPS.three1, 0x4CA132, treedata.cloud[j][0]-250, 13, treedata.cloud[j][1]-100, 0, Math.atan((treedata.line[lineIndex+1][0]-treedata.line[lineIndex][0])/(treedata.line[lineIndex+1][1]-treedata.line[lineIndex][1])), 0)
+            if(j<treedata.cloud.length)
+            {
+                while((treedata.cloud[j][0]-250)<(camera.position.x+150)){
+                    console.log('pop')
+                    lineIndex = Math.floor(j/3)
+                    if(j%2==0){
+                        PROPS.createProp(scene, PROPS.three1, 0x4CA132, treedata.cloud[j][0]-250, 13, treedata.cloud[j][1]-100, 0, Math.atan((treedata.line[lineIndex+1][0]-treedata.line[lineIndex][0])/(treedata.line[lineIndex+1][1]-treedata.line[lineIndex][1])), 0)
+                    }
+                    else{
+                        PROPS.createProp(scene, PROPS.three2, 0x4CA132, treedata.cloud[j][0]-250, 13, treedata.cloud[j][1]-100, 0, Math.atan((treedata.line[lineIndex+1][0]-treedata.line[lineIndex][0])/(treedata.line[lineIndex+1][1]-treedata.line[lineIndex][1])), 0)
+                    }
+                j++
                 }
-                else{
-                    PROPS.createProp(scene, PROPS.three2, 0x4CA132, treedata.cloud[j][0]-250, 13, treedata.cloud[j][1]-100, 0, Math.atan((treedata.line[lineIndex+1][0]-treedata.line[lineIndex][0])/(treedata.line[lineIndex+1][1]-treedata.line[lineIndex][1])), 0)
-                }
-            j++
             }
             console.log(camera.position.x)
             console.log(camera.position.z)
