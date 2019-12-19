@@ -30,6 +30,7 @@ import { MTLLoader, OBJLoader } from 'three-obj-mtl-loader';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import * as PROPS from './assets/propsBuilder.js'
 
+export const launch = function(treedata){
 
 const mtlLoader = new MTLLoader()
 const objLoader = new OBJLoader()
@@ -146,7 +147,7 @@ let j = 0
 let camCount = 0
 let lineIndex = 0
 let witness = 0
-export const launch = function(treedata){
+
     console.log(treedata)
     const loop = () => {
         renderer.setAnimationLoop(loop)
