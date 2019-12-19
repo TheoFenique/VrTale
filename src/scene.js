@@ -117,13 +117,12 @@ renderer.setSize(sizes.width, sizes.height)
 renderer.shadowMap.enabled = true
 document.body.appendChild(renderer.domElement)
 
-
+document.body.appendChild(VRButton.createButton(renderer));
+renderer.vr.enabled = true;
 
 camera.position.y = 20
 
-document.body.appendChild(VRButton.createButton(renderer));
 
-renderer.vr.enabled = true;
 
 // Boards
 let paths = ["logsStamp.png","fireStamp.png","sheetStamp.png","walk1Stamp.png","sleepStamp.png","walk2Stamp.png","houseStamp.png","sheetStamp.png"]
