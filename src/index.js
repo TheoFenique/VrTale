@@ -11,7 +11,6 @@ let treedata = fetch("https://tichyus.pythonanywhere.com/api", {
     .then(res => {
         res.json().then(data => {
             console.log(data)
-            PlaceObjects(data)
             console.log("attention ca va commencer")
             let launch_button = document.querySelector('#launch');
             launch_button.addEventListener('click', () => {

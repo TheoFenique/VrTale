@@ -4,20 +4,6 @@ import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 // import { WEBVR } from 'three/examples/jsm/vr/WebVR.js';
 import * as PROPS from './assets/propsBuilder.js'
 
-export let PlaceObjects = (data) => {
-
-    // data.cloud.map((v, i, a) => {
-
-    //     let lineIndex = Math.floor(i/3)
-    //     if(i%2==0){
-    //         PROPS.createProp(scene, PROPS.three2, 0x4CA132, v[0]-250, 13, v[1]-100, 0, Math.atan((data.line[lineIndex+1][0]-data.line[lineIndex][0])/(data.line[lineIndex+1][1]-data.line[lineIndex][1])), 0)
-    //     }
-    //     else{
-    //         PROPS.createProp(scene, PROPS.three1, 0x4CA132, v[0]-250, 13, v[1]-100, 0, Math.atan((data.line[lineIndex+1][0]-data.line[lineIndex][0])/(data.line[lineIndex+1][1]-data.line[lineIndex][1])), 0)
-    //     }
-    // })
-}
-
 
 const mtlLoader = new MTLLoader()
 const objLoader = new OBJLoader()
@@ -118,7 +104,7 @@ renderer.shadowMap.enabled = true
 document.body.appendChild(renderer.domElement)
 
 document.body.appendChild(VRButton.createButton(renderer));
-renderer.vr.enabled = true;
+// renderer.vr.enabled = true;
 
 camera.position.y = 20
 
@@ -141,7 +127,6 @@ export const launch = function(treedata){
             camera.position.x = (treedata.line[witness][0] - 250)
             camera.position.z = (treedata.line[witness][1] - 100)
         }
-        renderer.setAnimationLoop(loop)
 
         //Update velocity
         if (controlsListeners.z === 1 && controlsListeners.shift === 0) {
@@ -232,6 +217,8 @@ export const launch = function(treedata){
     }
     setTimeout(() => {
         console.log('ouiiiii')
-        loop()
+        renderer.vr.enabled = false;
+        renderer.setAnimationLoop(loop)
+        renderer.vr.enabled = true;
     }, 1000);
 }
