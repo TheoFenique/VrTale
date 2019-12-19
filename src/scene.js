@@ -5,6 +5,7 @@ import ThreeStereoEffect from 'three-stereo-effect';
 import * as PROPS from './assets/propsBuilder.js';
 const StereoEffect = ThreeStereoEffect(THREE)
 
+
 export let PlaceObjects = (data) => {
 
     // data.cloud.map((v, i, a) => {
@@ -138,6 +139,25 @@ camera.position.y = 20
 let paths = ["logsStamp.png", "fireStamp.png", "sheetStamp.png", "walk1Stamp.png", "sleepStamp.png", "walk2Stamp.png", "houseStamp.png", "sheetStamp.png"]
 let boards = []
 
+const initDeviceControl = () => {
+    controls = new DeviceOrientationControls(camera)
+    controls.connect()
+    console.log(controls)
+}
+
+const onOrientationChanged = (event) => {
+    if (!event.alpha) {
+        return
+    }
+
+    initDeviceControl()
+    resize()
+
+    window.removeEventListener("deviceorientation", onOrientationChanged)
+}
+
+window.addEventListener("deviceorientation", onOrientationChanged, false)
+
 // Loop
 let n = 0
 let m = 0
@@ -154,60 +174,10 @@ export const launch = function (treedata) {
         }
         renderer.setAnimationLoop(loop)
 
-        //Update velocity
-        if (controlsListeners.z === 1 && controlsListeners.shift === 0) {
-            if (velocity < 6) {
-                velocity += 0.016
-            }
-        }
-
-        if (controlsListeners.shift === 1 && controlsListeners.z === 1) {
-            velocity += 0.40
-            if (velocity > 40) {
-                velocity = 40
-            }
-        }
-
-        if (controlsListeners.s === 1) {
-            velocity -= 0.50
-            if (velocity < -4) {
-                velocity = -4
-            }
-        }
-
-        if (velocity < 0 && controlsListeners.z === 0 && controlsListeners.shift === 0 && controlsListeners.s === 0) {
-            velocity += 0.50
-        }
-
         // Update Skybox
         skyBox.mesh.position.x = camera.position.x
         skyBox.mesh.position.y = camera.position.y
         skyBox.mesh.position.z = camera.position.z
-
-
-        //Rotation
-        camera.rotation.x -= cursor.y * 0.1
-        camera.rotation.order = 'YXZ'
-        camera.rotation.y -= cursor.x * 0.1
-
-        if (controlsListeners.z == 1) {
-            camera.position.x -= (Math.sin(camera.rotation.y) / 360) * 30
-            camera.position.z -= (Math.cos(camera.rotation.y) / 360) * 30
-            // camera.position.y += (Math.tan(camera.rotation.x) / 360) *30
-        }
-        if (controlsListeners.q == 1) {
-            camera.position.x += (Math.sin(-camera.rotation.y - Math.PI / 2) / 360) * 30
-            camera.position.z += (-Math.cos(-camera.rotation.y - Math.PI / 2) / 360) * 30
-        }
-        if (controlsListeners.s == 1) {
-            camera.position.x += (Math.sin(camera.rotation.y) / 360) * 30
-            camera.position.z += (Math.cos(camera.rotation.y) / 360) * 30
-            // camera.position.y -= (Math.tan(camera.rotation.x) / 360) *30
-        }
-        if (controlsListeners.d == 1) {
-            camera.position.x += (Math.sin(-camera.rotation.y + Math.PI / 2) / 360) * 30
-            camera.position.z += (-Math.cos(-camera.rotation.y + Math.PI / 2) / 360) * 30
-        }
 
         // Renderer
         stereoEffect.render(scene, camera)
