@@ -2,6 +2,7 @@ import './controls'; // will have the vr controls
 import './css/master.css';
 import { launch, PlaceObjects } from './scene';
 
+<<<<<<< 6530db5260809dafb715df764f8487047b7e4094
 let treedata = fetch("https://tichyus.pythonanywhere.com/api", {
     method: "GET",
     headers: {
@@ -10,6 +11,28 @@ let treedata = fetch("https://tichyus.pythonanywhere.com/api", {
 })
     .then(res => {
         res.json().then(data => {
+=======
+// let productsApi = {
+//     getProducts: async () => {
+//         let response = await fetch('http://test-api.playosmo.com/ecommerce/products.json', {
+//                 'Accept': 'application/json',
+//             }
+//         })
+//         let products = await response.json();
+//         return products
+//     },
+// }
+
+
+let treedata = fetch("https://tichyus.pythonanywhere.com/api", {
+        method: "GET",
+        headers: {
+            Accept: "application/json"
+        }
+    })
+        .then(res => {
+            res.json().then(data => {
+>>>>>>> :sparkles: Ajout props + distance d'affichage + ralentissement caméra
             console.log(data)
             PlaceObjects(data)
             console.log("attention ca va commencer")
