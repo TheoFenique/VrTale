@@ -138,13 +138,13 @@ camera.position.y = 20
 const initOrbitControl = () => {
     controls = new OrbitControls(camera, renderer.domElement)
     controls.enableDamping = true
-    // controls.dampingFactor = 0.05
+    controls.dampingFactor = 0.05
     // controls.enableZoom = true
     controls.rotateSpeed = 0.05
     // controls.minDistance = 0
     // controls.maxDistance = 100
     controls.enablePan = false
-    // controls.zoomSpeed = 3
+    controls.zoomSpeed = 3
     controls.target.set(camera.position.x + 0.1, camera.position.y, camera.position.z)
     console.log(controls)
 }
@@ -200,8 +200,8 @@ export const launch = function (treedata) {
 
         if (witness < treedata.line.length) {
             camCount++
-            camera.position.x += (((treedata.line[witness + 10][0] - 250) - (treedata.line[witness][0] - 250)) / 300)
-            camera.position.z += (((treedata.line[witness + 10][1] - 100) - (treedata.line[witness][1] - 100)) / 300)
+            // camera.position.x += (((treedata.line[witness + 10][0] - 250) - (treedata.line[witness][0] - 250)) / 300)
+            // camera.position.z += (((treedata.line[witness + 10][1] - 100) - (treedata.line[witness][1] - 100)) / 300)
             if (camCount == 30) {
                 witness += 1
                 camCount = 0
