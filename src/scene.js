@@ -189,6 +189,30 @@ export const launch = function (treedata) {
         }
         window.requestAnimationFrame(loop)
 
+        //Rotation
+        camera.rotation.x -= cursor.y * 0.1
+        camera.rotation.order = 'YXZ'
+        camera.rotation.y -= cursor.x * 0.1
+
+        if (controlsListeners.z == 1) {
+            camera.position.x -= (Math.sin(camera.rotation.y) / 360) * 30
+            camera.position.z -= (Math.cos(camera.rotation.y) / 360) * 30
+            // camera.position.y += (Math.tan(camera.rotation.x) / 360) *30
+        }
+        if (controlsListeners.q == 1) {
+            camera.position.x += (Math.sin(-camera.rotation.y - Math.PI / 2) / 360) * 30
+            camera.position.z += (-Math.cos(-camera.rotation.y - Math.PI / 2) / 360) * 30
+        }
+        if (controlsListeners.s == 1) {
+            camera.position.x += (Math.sin(camera.rotation.y) / 360) * 30
+            camera.position.z += (Math.cos(camera.rotation.y) / 360) * 30
+            // camera.position.y -= (Math.tan(camera.rotation.x) / 360) *30
+        }
+        if (controlsListeners.d == 1) {
+            camera.position.x += (Math.sin(-camera.rotation.y + Math.PI / 2) / 360) * 30
+            camera.position.z += (-Math.cos(-camera.rotation.y + Math.PI / 2) / 360) * 30
+        }
+
         // Update Skybox
         skyBox.mesh.position.x = camera.position.x
         skyBox.mesh.position.y = camera.position.y
