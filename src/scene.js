@@ -1,11 +1,8 @@
 import * as THREE from 'three';
 import { MTLLoader, OBJLoader } from 'three-obj-mtl-loader';
-<<<<<<< 6530db5260809dafb715df764f8487047b7e4094
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
-=======
 // import { WEBVR } from 'three/examples/jsm/vr/WebVR.js';
 import * as PROPS from './assets/propsBuilder.js'
->>>>>>> :sparkles: Ajout props + distance d'affichage + ralentissement caméra
 
 export let PlaceObjects = (data) => {
 
@@ -132,14 +129,6 @@ document.body.appendChild(VRButton.createButton(renderer));
 renderer.vr.enabled = true;
 
 // Loop
-<<<<<<< 6530db5260809dafb715df764f8487047b7e4094
-let witness = 0;
-export const launch = function (treedata) {
-    console.log(treedata)
-    const loop = () => {
-        renderer.setAnimationLoop(loop)
-
-=======
 let j = 0
 let camCount = 0
 let lineIndex = 0
@@ -151,9 +140,8 @@ export const launch = function(treedata){
             camera.position.x = (treedata.line[witness][0] - 250)
             camera.position.z = (treedata.line[witness][1] - 100)
         }
-        window.requestAnimationFrame(loop)
+        renderer.setAnimationLoop(loop)
     
->>>>>>> :sparkles: Ajout props + distance d'affichage + ralentissement caméra
         //Update velocity
         if (controlsListeners.z === 1 && controlsListeners.shift === 0) {
             if (velocity < 6) {
@@ -212,14 +200,6 @@ export const launch = function(treedata){
         // Renderer
         renderer.render(scene, camera)
 
-<<<<<<< 6530db5260809dafb715df764f8487047b7e4094
-        if (Object.keys(treedata.line).length >= witness) {
-            camera.position.x = (treedata.line[witness][0] - 250)
-            camera.position.z = (treedata.line[witness][1] - 100)
-        }
-
-        witness += 1;
-=======
         if(witness<treedata.line.length)
         {
             camCount++
@@ -244,7 +224,6 @@ export const launch = function(treedata){
             console.log(camera.position.x)
             console.log(camera.position.z)
         }
->>>>>>> :sparkles: Ajout props + distance d'affichage + ralentissement caméra
     }
     setTimeout(() => {
         console.log('ouiiiii')
