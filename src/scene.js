@@ -110,9 +110,6 @@ sunLight.shadow.camera.near = 50
 sunLight.shadow.camera.far = 60
 scene.add(sunLight)
 
-var helper = new THREE.CameraHelper(sunLight.shadow.camera);
-scene.add(helper)
-
 
 //Renderer
 const renderer = new THREE.WebGLRenderer()
@@ -128,7 +125,12 @@ document.body.appendChild(VRButton.createButton(renderer));
 
 renderer.vr.enabled = true;
 
+// Boards
+let paths = ["logsStamp.png","fireStamp.png","sheetStamp.png","walk1Stamp.png","sleepStamp.png","walk2Stamp.png","houseStamp.png","sheetStamp.png"]
+
+
 // Loop
+let m = 0
 let j = 0
 let camCount = 0
 let lineIndex = 0
@@ -141,7 +143,7 @@ export const launch = function(treedata){
             camera.position.z = (treedata.line[witness][1] - 100)
         }
         renderer.setAnimationLoop(loop)
-    
+
         //Update velocity
         if (controlsListeners.z === 1 && controlsListeners.shift === 0) {
             if (velocity < 6) {
@@ -203,9 +205,9 @@ export const launch = function(treedata){
         if(witness<treedata.line.length)
         {
             camCount++
-            camera.position.x += (((treedata.line[witness+10][0] - 250) - (treedata.line[witness][0] - 250))/100)
-            camera.position.z += (((treedata.line[witness+10][1] - 100) - (treedata.line[witness][1] - 100))/100)
-            if(camCount==10){
+            camera.position.x += (((treedata.line[witness+10][0] - 250) - (treedata.line[witness][0] - 250))/300)
+            camera.position.z += (((treedata.line[witness+10][1] - 100) - (treedata.line[witness][1] - 100))/300)
+            if(camCount==30){
                 witness += 1
                 camCount = 0
             }
@@ -213,23 +215,24 @@ export const launch = function(treedata){
             if(j<treedata.cloud.length)
             {
                 while((treedata.cloud[j][0]-250)<(camera.position.x+150)){
-                    console.log('pop')
                     lineIndex = Math.floor(j/3)
                     if(j%2==0){
-                        PROPS.createProp(scene, PROPS.three1, 0x4CA132, treedata.cloud[j][0]-250, 13, treedata.cloud[j][1]-100, 0, Math.atan((treedata.line[lineIndex+1][0]-treedata.line[lineIndex][0])/(treedata.line[lineIndex+1][1]-treedata.line[lineIndex][1])), 0)
+                        PROPS.createProp(scene, PROPS.three1, 0x4CA132, treedata.cloud[j][0]-250, 13, treedata.cloud[j][1]-100, 0, Math.atan((treedata.line[lineIndex+3][0]-treedata.line[lineIndex][0])/(treedata.line[lineIndex+3][1]-treedata.line[lineIndex][1])), 0)
                     }
                     else{
-                        PROPS.createProp(scene, PROPS.three2, 0x4CA132, treedata.cloud[j][0]-250, 13, treedata.cloud[j][1]-100, 0, Math.atan((treedata.line[lineIndex+1][0]-treedata.line[lineIndex][0])/(treedata.line[lineIndex+1][1]-treedata.line[lineIndex][1])), 0)
+                        PROPS.createProp(scene, PROPS.three2, 0x4CA132, treedata.cloud[j][0]-250, 13, treedata.cloud[j][1]-100, 0, Math.atan((treedata.line[lineIndex+3][0]-treedata.line[lineIndex][0])/(treedata.line[lineIndex+3][1]-treedata.line[lineIndex][1])), 0)
+                    }
+                    if(j%(Math.ceil(treedata.cloud.length/8))==0 && j!=0){
+                        PROPS.createBoardProp(scene, paths[m], treedata.cloud[j][0]-250, 18, treedata.cloud[j][1]-100, 0, -90 - Math.atan((treedata.line[lineIndex+5][0]-treedata.line[lineIndex][0])/(treedata.line[lineIndex+5][1]-treedata.line[lineIndex][1])), 90)
+                        m++
                     }
                 j++
                 }
             }
-            console.log(camera.position.x)
-            console.log(camera.position.z)
         }
     }
     setTimeout(() => {
         console.log('ouiiiii')
         loop()
     }, 1000);
-} 
+}

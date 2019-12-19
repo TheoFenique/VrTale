@@ -528,8 +528,6 @@ star.computeVertexNormals();
 board.computeFaceNormals();
 board.computeVertexNormals();
 
-const paths = ['/assets/stamps/logsStamp.png','/assets/stamps/fireStamp.png','/assets/stamps/sheetStamp.png','/assets/stamps/walk1Stamp.png','/assets/stamps/sleepStamp.png','/assets/stamps/walk2Stamp.png','/assets/stamps/houseStamp.png','/assets/stamps/sheetStamp.png']
-
 function createProp(scene, geometry, color, posX=0, posY=0, posZ=0, rotX=0, rotY=0, rotZ=0) {
     const propObject = new THREE.Object3D()
 
@@ -552,9 +550,9 @@ function createProp(scene, geometry, color, posX=0, posY=0, posZ=0, rotX=0, rotY
     scene.add(propObject);
 }
 
-const TextureLoader = new THREE.TextureLoader()
+const textureLoader = new THREE.TextureLoader()
 
-function createBoardProp(stampPath, posX=0, posY=0, posZ=0, rotX=0, rotY=0, rotZ=0) {
+function createBoardProp(scene, stampPath, posX=0, posY=0, posZ=0, rotX, rotY, rotZ) {
     const boardObject = new THREE.Object3D()
 
     const material = new THREE.MeshStandardMaterial({color: 0x8D6B36, roughness : 2});
@@ -568,11 +566,11 @@ function createBoardProp(stampPath, posX=0, posY=0, posZ=0, rotX=0, rotY=0, rotZ
     boardObject.position.x = posX;
     boardObject.position.y = posY;
     boardObject.position.z = posZ;
-    boardObject.rotation.x = rotX;
     boardObject.rotation.y = rotY;
+    boardObject.rotation.x = rotX;
     boardObject.rotation.z = rotZ;
 
-    const textureStamp = TextureLoader.load(stampPath)
+    const textureStamp = textureLoader.load(stampPath)
     const stampGeometry = new THREE.CircleBufferGeometry(4.5, 32)
     const stampMaterial = new THREE.MeshStandardMaterial({map: textureStamp, roughness : 2})
     const stamp = new THREE.Mesh(stampGeometry, stampMaterial)
@@ -583,11 +581,11 @@ function createBoardProp(stampPath, posX=0, posY=0, posZ=0, rotX=0, rotY=0, rotZ
     stamp.position.y=6
     boardObject.add(stamp)
 
-    boardObject.scale.set(0.1,0.1,0.1)
+    boardObject.scale.set(0.2,0.2,0.2)
 
-    myScene.add(boardObject)
+    scene.add(boardObject)
 
     return boardObject
   }
 
-export {three1, three2, star, board, paths, createProp, createBoardProp}
+export {three1, three2, star, board, createProp, createBoardProp}
