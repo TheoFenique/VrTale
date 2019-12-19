@@ -127,6 +127,9 @@ export const launch = function(treedata){
             camera.position.x = (treedata.line[witness][0] - 250)
             camera.position.z = (treedata.line[witness][1] - 100)
         }
+        renderer.vr.enabled = false;
+        renderer.setAnimationLoop(loop)
+        renderer.vr.enabled = true;
 
         //Update velocity
         if (controlsListeners.z === 1 && controlsListeners.shift === 0) {
@@ -217,8 +220,6 @@ export const launch = function(treedata){
     }
     setTimeout(() => {
         console.log('ouiiiii')
-        renderer.vr.enabled = false;
-        renderer.setAnimationLoop(loop)
-        renderer.vr.enabled = true;
+        loop()
     }, 1000);
 }
