@@ -10,6 +10,32 @@ const objLoader = new OBJLoader()
 const textureLoader = new THREE.TextureLoader()
 const scene = new THREE.Scene()
 
+// Sizes
+const sizes = {}
+sizes.width = window.innerWidth
+sizes.height = window.innerHeight
+
+window.addEventListener('resize', () => {
+    // Update sizes
+    sizes.width = window.innerWidth
+    sizes.height = window.innerHeight
+
+    // Update camera
+    camera.aspect = sizes.width / sizes.height
+    camera.updateProjectionMatrix()
+
+    // Update renderer
+    renderer.setSize(sizes.width, sizes.height)
+})
+
+//Renderer
+const renderer = new THREE.WebGLRenderer()
+renderer.setSize(sizes.width, sizes.height)
+renderer.shadowMap.enabled = true
+document.body.appendChild(renderer.domElement)
+
+document.body.appendChild(VRButton.createButton(renderer));
+// renderer.vr.enabled = true;
 
 //Variables
 let velocity = 0
@@ -19,7 +45,6 @@ let controlsListeners = {
     shift: 0,
     s: 0
 }
-
 
 //Set the Skybox
 const skyBox = {}
@@ -44,24 +69,6 @@ floor.mesh.castShadow = false
 floor.mesh.receiveShadow = true
 floor.mesh.position.y = 10
 scene.add(floor.mesh)
-
-// Sizes
-const sizes = {}
-sizes.width = window.innerWidth
-sizes.height = window.innerHeight
-
-window.addEventListener('resize', () => {
-    // Update sizes
-    sizes.width = window.innerWidth
-    sizes.height = window.innerHeight
-
-    // Update camera
-    camera.aspect = sizes.width / sizes.height
-    camera.updateProjectionMatrix()
-
-    // Update renderer
-    renderer.setSize(sizes.width, sizes.height)
-})
 
 
 // Cursor
@@ -97,14 +104,7 @@ sunLight.shadow.camera.far = 60
 scene.add(sunLight)
 
 
-//Renderer
-const renderer = new THREE.WebGLRenderer()
-renderer.setSize(sizes.width, sizes.height)
-renderer.shadowMap.enabled = true
-document.body.appendChild(renderer.domElement)
 
-document.body.appendChild(VRButton.createButton(renderer));
-// renderer.vr.enabled = true;
 
 camera.position.y = 20
 
@@ -123,13 +123,14 @@ let witness = 0
 export const launch = function(treedata){
     console.log(treedata)
     const loop = () => {
+        renderer.setAnimationLoop(loop)
+        renderer.vr.enabled = false;
+
         if(j==0 && witness ==0){
             camera.position.x = (treedata.line[witness][0] - 250)
             camera.position.z = (treedata.line[witness][1] - 100)
         }
-        renderer.vr.enabled = false;
-        renderer.setAnimationLoop(loop)
-
+    
         //Update velocity
         if (controlsListeners.z === 1 && controlsListeners.shift === 0) {
             if (velocity < 6) {
@@ -185,8 +186,6 @@ export const launch = function(treedata){
             camera.position.z += (-Math.cos(-camera.rotation.y + Math.PI / 2) / 360) * 30
         }
 
-        // Renderer
-        renderer.render(scene, camera)
 
         if(witness<treedata.line.length)
         {
@@ -216,6 +215,8 @@ export const launch = function(treedata){
                 }
             }
         }
+        // Renderer
+        renderer.render(scene, camera)
         renderer.vr.enabled = true;
     }
     setTimeout(() => {

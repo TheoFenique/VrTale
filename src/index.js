@@ -12,12 +12,12 @@ let treedata = fetch("https://tichyus.pythonanywhere.com/api", {
         res.json().then(data => {
             console.log(data)
             console.log("attention ca va commencer")
-            let launch_button = document.querySelector('#launch');
-            launch_button.addEventListener('click', () => {
-                document.querySelector('canvas').classList.add("visible")
+            // let launch_button = document.querySelector('#launch');
+            // launch_button.addEventListener('click', () => {
+                // document.querySelector('canvas').classList.add("visible")
                 console.log('cest partiiiiiii')
                 launch(data)
-            })
+            // })
             return data
         });
     })
