@@ -1,9 +1,11 @@
 import * as THREE from 'three';
 import { MTLLoader, OBJLoader } from 'three-obj-mtl-loader';
+import ThreeOrbitControls from 'three-orbit-controls';
 import ThreeStereoEffect from 'three-stereo-effect';
 // import { WEBVR } from 'three/examples/jsm/vr/WebVR.js';
 import * as PROPS from './assets/propsBuilder.js';
 import { DeviceOrientationControls } from './DeviceOrientationControls';
+const OrbitControls = ThreeOrbitControls(THREE)
 const StereoEffect = ThreeStereoEffect(THREE)
 
 let controls;
@@ -133,9 +135,20 @@ stereoEffect.eyeSeparation = 0.2;
 
 camera.position.y = 20
 
-// document.body.appendChild(VRButton.createButton(renderer));
-
-// renderer.vr.enabled = true;
+const initOrbitControl = () => {
+    controls = new OrbitControls(camera, renderer.domElement)
+    controls.enableDamping = true
+    // controls.dampingFactor = 0.05
+    // controls.enableZoom = true
+    controls.rotateSpeed = 0.05
+    // controls.minDistance = 0
+    // controls.maxDistance = 100
+    controls.enablePan = false
+    // controls.zoomSpeed = 3
+    controls.target.set(camera.position.x + 0.1, camera.position.y, camera.position.z)
+    console.log(controls)
+}
+initOrbitControl()
 
 // Boards
 let paths = ["logsStamp.png", "fireStamp.png", "sheetStamp.png", "walk1Stamp.png", "sleepStamp.png", "walk2Stamp.png", "houseStamp.png", "sheetStamp.png"]
@@ -183,6 +196,7 @@ export const launch = function (treedata) {
 
         // Renderer
         stereoEffect.render(scene, camera)
+        controls.update();
 
         if (witness < treedata.line.length) {
             camCount++
