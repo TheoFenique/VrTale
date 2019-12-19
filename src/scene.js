@@ -6,6 +6,7 @@ import * as PROPS from './assets/propsBuilder.js';
 import { DeviceOrientationControls } from './DeviceOrientationControls';
 const StereoEffect = ThreeStereoEffect(THREE)
 
+let controls;
 
 export let PlaceObjects = (data) => {
 
