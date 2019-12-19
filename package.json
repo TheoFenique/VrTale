@@ -7,6 +7,7 @@
     "npm-check-updates": "^4.0.1",
     "three-gltf-loader": "^1.111.0",
     "three-obj-mtl-loader": "^1.0.3",
+    "three-stereo-effect": "^1.0.14",
     "webpack": "^4.41.3",
     "webxr": "0.0.0"
   },
