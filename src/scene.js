@@ -56,7 +56,7 @@ floor.mesh = new THREE.Mesh(floor.geometry, floor.material)
 floor.mesh.rotation.x = - Math.PI * 0.5
 floor.mesh.castShadow = false
 floor.mesh.receiveShadow = true
-floor.mesh.position.y = 10
+floor.mesh.position.y = 12
 scene.add(floor.mesh)
 
 // Sizes
@@ -106,7 +106,7 @@ sunLight.shadow.camera.right = 2000
 sunLight.shadow.camera.left = -2000
 sunLight.shadow.camera.top = 2000
 sunLight.shadow.camera.bottom = -2000
-sunLight.shadow.camera.near = 50
+sunLight.shadow.camera.near = 0
 sunLight.shadow.camera.far = 60
 scene.add(sunLight)
 
@@ -127,9 +127,10 @@ renderer.vr.enabled = true;
 
 // Boards
 let paths = ["logsStamp.png","fireStamp.png","sheetStamp.png","walk1Stamp.png","sleepStamp.png","walk2Stamp.png","houseStamp.png","sheetStamp.png"]
-
+let boards = []
 
 // Loop
+let n = 0
 let m = 0
 let j = 0
 let camCount = 0
@@ -211,9 +212,9 @@ export const launch = function(treedata){
                 witness += 1
                 camCount = 0
             }
-
             if(j<treedata.cloud.length)
             {
+                console.log(camera.position.x)
                 while((treedata.cloud[j][0]-250)<(camera.position.x+150)){
                     lineIndex = Math.floor(j/3)
                     if(j%2==0){
@@ -223,10 +224,28 @@ export const launch = function(treedata){
                         PROPS.createProp(scene, PROPS.three2, 0x4CA132, treedata.cloud[j][0]-250, 13, treedata.cloud[j][1]-100, 0, Math.atan((treedata.line[lineIndex+3][0]-treedata.line[lineIndex][0])/(treedata.line[lineIndex+3][1]-treedata.line[lineIndex][1])), 0)
                     }
                     if(j%(Math.ceil(treedata.cloud.length/8))==0 && j!=0){
-                        PROPS.createBoardProp(scene, paths[m], treedata.cloud[j][0]-250, 18, treedata.cloud[j][1]-100, 0, -90 - Math.atan((treedata.line[lineIndex+5][0]-treedata.line[lineIndex][0])/(treedata.line[lineIndex+5][1]-treedata.line[lineIndex][1])), 90)
+                        boards.push(PROPS.createBoardProp(scene, paths[m], treedata.cloud[j][0]-250, 8, treedata.cloud[j][1]-100, 0, -90 - Math.atan((treedata.line[lineIndex+5][0]-treedata.line[lineIndex][0])/(treedata.line[lineIndex+5][1]-treedata.line[lineIndex][1])), 0))
+                        console.log(boards[m])
                         m++
+                        n=0
                     }
                 j++
+                }
+                if(m>0){
+                    if(camera.position.x+17 < boards[m-1].position.x && boards[m-1].position.x < camera.position.x+30)
+                    {
+                        if(n<180){
+                            n++
+                            boards[m-1].translateY(0.055)
+                        }
+                    }
+                    if(boards[m-1].position.x < camera.position.x+17)
+                    {
+                        if(n<280){
+                            n++
+                            boards[m-1].translateY(-0.055)
+                        }
+                    }
                 }
             }
         }
