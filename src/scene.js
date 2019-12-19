@@ -187,7 +187,7 @@ export const launch = function (treedata) {
             camera.position.x = (treedata.line[witness][0] - 250)
             camera.position.z = (treedata.line[witness][1] - 100)
         }
-        renderer.setAnimationLoop(loop)
+        window.requestAnimationFrame(loop)
 
         // Update Skybox
         skyBox.mesh.position.x = camera.position.x
@@ -196,12 +196,12 @@ export const launch = function (treedata) {
 
         // Renderer
         stereoEffect.render(scene, camera)
-        console.log(controls.update());
+        controls.update();
 
         if (witness < treedata.line.length) {
             camCount++
-            // camera.position.x += (((treedata.line[witness + 10][0] - 250) - (treedata.line[witness][0] - 250)) / 300)
-            // camera.position.z += (((treedata.line[witness + 10][1] - 100) - (treedata.line[witness][1] - 100)) / 300)
+            camera.position.x += (((treedata.line[witness + 10][0] - 250) - (treedata.line[witness][0] - 250)) / 300)
+            camera.position.z += (((treedata.line[witness + 10][1] - 100) - (treedata.line[witness][1] - 100)) / 300)
             if (camCount == 30) {
                 witness += 1
                 camCount = 0

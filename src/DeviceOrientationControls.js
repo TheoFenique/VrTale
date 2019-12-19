@@ -104,7 +104,7 @@ var DeviceOrientationControls = function (object) {
 
     this.update = function () {
 
-        if (scope.enabled === false) return "p";
+        if (scope.enabled === false) return;
 
         var device = scope.deviceOrientation;
 
@@ -136,3 +136,4 @@ var DeviceOrientationControls = function (object) {
 };
 
 export { DeviceOrientationControls };
+
