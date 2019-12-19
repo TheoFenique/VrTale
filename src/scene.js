@@ -3,7 +3,7 @@ import { MTLLoader, OBJLoader } from 'three-obj-mtl-loader';
 import ThreeStereoEffect from 'three-stereo-effect';
 // import { WEBVR } from 'three/examples/jsm/vr/WebVR.js';
 import * as PROPS from './assets/propsBuilder.js';
-import DeviceOrientationControls from './DeviceOrientationControls';
+import { DeviceOrientationControls } from './DeviceOrientationControls';
 const StereoEffect = ThreeStereoEffect(THREE)
 
 
@@ -192,7 +192,7 @@ export const launch = function (treedata) {
                 camCount = 0
             }
             if (j < treedata.cloud.length) {
-                console.log(camera.position.x)
+
                 while ((treedata.cloud[j][0] - 250) < (camera.position.x + 150)) {
                     lineIndex = Math.floor(j / 3)
                     if (j % 2 == 0) {
@@ -203,7 +203,7 @@ export const launch = function (treedata) {
                     }
                     if (j % (Math.ceil(treedata.cloud.length / 8)) == 0 && j != 0) {
                         boards.push(PROPS.createBoardProp(scene, paths[m], treedata.cloud[j][0] - 250, 8, treedata.cloud[j][1] - 100, 0, -90 - Math.atan((treedata.line[lineIndex + 5][0] - treedata.line[lineIndex][0]) / (treedata.line[lineIndex + 5][1] - treedata.line[lineIndex][1])), 0))
-                        console.log(boards[m])
+
                         m++
                         n = 0
                     }
