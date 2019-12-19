@@ -3,6 +3,7 @@ import { MTLLoader, OBJLoader } from 'three-obj-mtl-loader';
 import ThreeStereoEffect from 'three-stereo-effect';
 // import { WEBVR } from 'three/examples/jsm/vr/WebVR.js';
 import * as PROPS from './assets/propsBuilder.js';
+import DeviceOrientationControls from './DeviceOrientationControls';
 const StereoEffect = ThreeStereoEffect(THREE)
 
 
